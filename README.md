@@ -5,7 +5,17 @@ Sequence Wallet plugin for Unreal Engine
 # Usage Instructions
 
 ## Install
-TODO..?
+
+### Install to a project
+1. Navigate to your Project folder - the folder with the `[ProjectNameHere].uproject` file in it.
+2. Create a folder called `Plugins`, if it doesn't already exist.
+3. Copy the entire `web3-unreal-sdk` folder into the `Plugins` folder.
+
+### Install globally to Unreal Engine
+1. Navigate to your Unreal Engine installation folder - on Windows, the default is `C:\Program Files\Epic Games\UE_5.0\Engine`
+2. Copy the entire `web3-unreal-sdk` folder into the `Plugins` folder.
+
+Finally, in the Unreal Editor, go to `Menu -> Edit -> Plugins`, and enable the `UnrealSequence` plugin.
 
 ## Setting up UnrealSequence
 This setup assumes you're using UMG & Blueprints.
