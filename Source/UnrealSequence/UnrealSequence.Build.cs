@@ -8,7 +8,8 @@ public class UnrealSequence : ModuleRules
     {
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core" });
+        PublicDependencyModuleNames
+            .AddRange(new string[] { "Core", "Projects" });
 
         PrivateDependencyModuleNames
             .AddRange(new string[] {

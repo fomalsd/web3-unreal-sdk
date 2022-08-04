@@ -7,6 +7,7 @@
 #include "SWebBrowser.h"
 #include "SWebBrowserView.h"
 
+#include "Interfaces/IPluginManager.h"
 #include "JsonObjectConverter.h"
 #include "Serialization/JsonWriter.h"
 
@@ -118,12 +119,13 @@ void UWalletWidget::NativeConstruct()
     Super::NativeConstruct();
 
     // Load data files from .pak
+    auto PluginBasePath = IPluginManager::Get().FindPlugin(TEXT("UnrealSequence"))->GetBaseDir();
     IPlatformFile &FileManager = FPlatformFileManager::Get().GetPlatformFile();
-    auto ThisPluginDir = FPaths::ConvertRelativePathToFull(FPaths::Combine(FPaths::ProjectPluginsDir() + "UnrealSequence/Data"));
+    auto ThisPluginDir = FPaths::ConvertRelativePathToFull(FPaths::Combine(PluginBasePath + "/Data"));
 
     if (!FileManager.DirectoryExists(*ThisPluginDir))
     {
-        UE_LOG(LogSequence, Fatal, TEXT("Failed to find Sequence Data folder, can't initialize."));
+        UE_LOG(LogSequence, Fatal, TEXT("Failed to find Sequence Data folder, can't initialize. Path %s"), *ThisPluginDir);
     }
 
     FString SequenceHTML;
@@ -131,7 +133,7 @@ void UWalletWidget::NativeConstruct()
     UE_LOG(LogSequence, Log, TEXT("Loading Sequence HTML from %s"), *SequenceHTMLFile);
     if (!FileManager.FileExists(*SequenceHTMLFile) || !FFileHelper::LoadFileToString(SequenceHTML, *SequenceHTMLFile))
     {
-        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence HTML, can't initialize."));
+        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence HTML, can't initialize. Path %s"), *SequenceHTMLFile);
     }
 
     FString LeftSequenceHTML;
@@ -147,7 +149,7 @@ void UWalletWidget::NativeConstruct()
     UE_LOG(LogSequence, Log, TEXT("Loading Ethers JS from %s"), *EthersJSFile);
     if (!FileManager.FileExists(*EthersJSFile) || !FFileHelper::LoadFileToString(EthersJS, *EthersJSFile))
     {
-        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Ethers JS, can't initialize."));
+        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Ethers JS, can't initialize. Path %s"), *EthersJSFile);
     }
 
     FString SequenceJS;
@@ -155,7 +157,7 @@ void UWalletWidget::NativeConstruct()
     UE_LOG(LogSequence, Log, TEXT("Loading Sequence JS from %s"), *SequenceJSFile);
     if (!FileManager.FileExists(*SequenceJSFile) || !FFileHelper::LoadFileToString(SequenceJS, *SequenceJSFile))
     {
-        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence JS, can't initialize."));
+        UE_LOG(LogSequence, Fatal, TEXT("Failed to load Sequence JS, can't initialize. Path %s"), *SequenceJSFile);
     }
     FString SequenceJSInit = TEXT("</script><script>window.seq = window.sequence.sequence; window.seq.initWallet('") +
                              DefaultNetwork + TEXT("', { walletAppURL:'") +
