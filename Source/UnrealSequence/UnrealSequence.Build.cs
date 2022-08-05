@@ -22,8 +22,6 @@ public class UnrealSequence : ModuleRules
                 "WebBrowser"
             });
 
-        RuntimeDependencies
-            .Add("$(ProjectDir)/Plugins/UnrealSequence/Data/...",
-            StagedFileType.UFS);
+        RuntimeDependencies.Add("$(PluginDir)/Data/...", StagedFileType.UFS);
     }
 }
