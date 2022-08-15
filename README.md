@@ -1,6 +1,15 @@
 # UnrealSequence
 
-Sequence Wallet plugin for Unreal Engine
+Sequence Wallet plugin for Unreal Engine!
+This plugin is currently in **Alpha**.
+It works enough to develop against, but not enough to be released.
+Connecting wallets, sending transactions, etc, work!
+The following features still need work.
+- "Connect" popups show the url "example.com".
+- Login methods other than Google and Email haven't been tested, and may not work.
+- There's no way to force a user to be logged out of their Sequence wallet.
+- non-sequence.app URLs clicked from the wallet take over the wallet UI.
+
 
 # Usage Instructions
 
