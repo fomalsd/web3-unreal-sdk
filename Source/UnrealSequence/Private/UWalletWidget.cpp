@@ -145,7 +145,7 @@ void UWalletWidget::NativeConstruct()
     }
 
     FString EthersJS;
-    FString EthersJSFile = FPaths::Combine(ThisPluginDir + "/ethers-5.6.umd.min.js");
+    FString EthersJSFile = FPaths::Combine(ThisPluginDir + "/ethers-5.7.umd.min.js");
     UE_LOG(LogSequence, Log, TEXT("Loading Ethers JS from %s"), *EthersJSFile);
     if (!FileManager.FileExists(*EthersJSFile) || !FFileHelper::LoadFileToString(EthersJS, *EthersJSFile))
     {
@@ -161,7 +161,7 @@ void UWalletWidget::NativeConstruct()
     }
     FString SequenceJSInit = TEXT("</script><script>window.seq = window.sequence.sequence; window.seq.initWallet('") +
                              DefaultNetwork + TEXT("', { walletAppURL:'") +
-                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.seq.getWallet().on('close', () => window.ue.sequencewallettransport.callbackfromjs(0, 'wallet_closed')); window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
+                             WalletAppURL + TEXT("', transports: { unrealTransport: { enabled: true } } });") + TEXT("window.seq.getWallet().on('close', () => {window.ue.sequencewallettransport.callbackfromjs(0, 'wallet_closed');console.log('closing wallet')}); window.ue.sequencewallettransport.callbackfromjs(0, 'initialized');");
 
     // Create an HTML file that loads sequence.js
     FString FullSequenceHTML = LeftSequenceHTML + EthersJS + SequenceJS + SequenceJSInit + RightSequenceHTML;
@@ -200,8 +200,8 @@ void UWalletWidget::InternalExecuteSequenceJSWithCallback(FString JS, TFunction<
 
 void UWalletWidget::OnCapturePopup(FString URL, FString Frame)
 {
-    WalletWebBrowser->LoadURL(URL);
     OnSequenceWalletPopupOpened.Broadcast();
+    WalletWebBrowser->LoadURL(URL);
 }
 
 void UWalletWidget::SendMessageToWallet(FString JSON)
@@ -225,6 +225,8 @@ void UWalletWidget::CallbackFromJS(uint32 Key, FString Value)
         }
         else if (Value == "wallet_closed")
         {
+            UE_LOG(LogSequence, Log, TEXT("CLOSING WALLET"), *Value);
+
             OnSequenceWalletPopupClosed.Broadcast();
         }
         else

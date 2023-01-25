@@ -65,3 +65,7 @@ ExecuteJS will collapse all your JS to one line. Make sure every statement is se
 
 ## Console.log, warning, and errors
 Logs from the browser contexts will show up in your Unreal log under the LogSequence category.
+
+## Debugging
+Unreal Engine has an undocumented parameter, `-cefdebug=<port_number>`, that you can pass on the command line to use the Chrome devtools with.
+Thanks to `iktomi` on the Unreal Engien forums for this lifesaving tip.
